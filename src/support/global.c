@@ -12,6 +12,16 @@ WT_PROCESS __wt_process;			/* Per-process structure */
 static int __wt_pthread_once_failed;		/* If initialization failed */
 
 /*
+ * wiredtiger_checksum --
+ *  Produce a crc32c checksum for a buffer of bytes
+ */
+uint32_t
+wiredtiger_checksum(const void *chunk, size_t len)
+{
+    return __wt_process.checksum(chunk, len);
+}
+
+/*
  * __wt_endian_check --
  *	Check the build matches the machine.
  */
@@ -148,4 +158,14 @@ __wt_library_init(void)
 		first = false;
 	}
 	return (__wt_pthread_once_failed);
+}
+
+/*
+ * wiredtiger_library_init --
+ *  Idempotently initialize the global library state
+ */
+int
+wiredtiger_library_init(void)
+{
+    return __wt_library_init();
 }

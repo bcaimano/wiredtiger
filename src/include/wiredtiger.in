@@ -3035,6 +3035,22 @@ int wiredtiger_open(const char *home,
  */
 const char *wiredtiger_strerror(int error) WT_ATTRIBUTE_LIBRARY_VISIBLE;
 
+/*!
+ * Create a crc32c checksum for a buffer of bytes
+ *
+ * @param chunk a pointer to buffer of bytes
+ * @param len the length of the buffer of bytes
+ * @returns the crc32c checksum for that buffer
+ */
+uint32_t wiredtiger_checksum(const void *chunk, size_t len) WT_ATTRIBUTE_LIBRARY_VISIBLE;
+
+/*!
+ * Initialize the global state of the WiredTiger library
+ *
+ * This function is idempotent and not required if calling wiredtiger_open.
+ */
+int wiredtiger_library_init(void) WT_ATTRIBUTE_LIBRARY_VISIBLE;
+
 #if !defined(SWIG)
 /*!
  * The interface implemented by applications to accept notifications
